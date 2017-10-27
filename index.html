@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Yogesh's Stock Details</title>
+    <link rel="stylesheet" href="css/stylecard.css">
+</head>
+<body>
+  <div class="container">
+      <div id = "overflow" class="options-box">
+      <header>
+         <h1 class="header_title">Yogesh's Stocks Details</h1>
+       </header>
+       <aside>
+              <p id = "gainp" style="text-align:left;">
+                Gain/Loss
+              <span id = "gain" style="float:right;"></span>
+              </p>
+              <p id = "currentinfop" style="text-align:left;">
+               Current Value
+              <span id = "currentinfo" style="float:right;"></span>
+              </p>
+              <p style="text-align:left;">
+                <div class="card">
+               <button id = "button" class = "button" data-bind="click: stock">Total Portfolio </button></div>
+              <span id = "totalport" style="float:right;"></span>
+            </p><br><br>
+             <nav  id="drawer" class="nav">
+             <ul id = "ul" class="nav_list" data-bind="foreach: stockList">
+               <h2 class = "price" style="float:right;" data-bind="text: total"></h2>
+
+               <div class = "card">
+                 <li data-bind="click: $parent.changeStock, text: title" class="nav_item"></li><br><br>
+                 <input name = "text" type = "text">
+               </div>
+             </ul>
+           </nav>
+           </aside>
+       </div>
+
+    </div>
+    <main id = "info">
+    </main>
+  </div>
+
+    <script src="js/libs/knockout-3.4.2.js"></script>
+    <script src="js/libs/jquery.min.js"></script>
+    <script src="js/appcard.js"></script>
+</body>
+</html>
