@@ -2,10 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Yogesh's Stock Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/stylecard.css">
+    <script src="js/libs/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
 </head>
 <body>
+  <div class="modal fade" data-bind="modal: !!currentModalItem(), with: currentModalItem">
+   <div class="modal-dialog">
+     <div class="modal-content">
+      <div class="modal-body">
+         <p><i data-bind="text: title"></i></p>
+     </div>
+   </div>
+</div>
+</div>
   <div class="container">
       <div id = "overflow" class="options-box">
       <header>
@@ -30,9 +44,10 @@
                <h2 class = "price" style="float:right;" data-bind="text: total"></h2>
 
                <div class = "card">
-                 <li data-bind="click: $parent.changeStock, text: title" class="nav_item"></li><br><br>
+                 <li data-bind="click: $root.openModal, text: title" class="nav_item"></li><br><br>
                  <input name = "text" type = "text">
                </div>
+
              </ul>
            </nav>
            </aside>
@@ -44,7 +59,7 @@
   </div>
 
     <script src="js/libs/knockout-3.4.2.js"></script>
-    <script src="js/libs/jquery.min.js"></script>
+
     <script src="js/appcard.js"></script>
 </body>
 </html>
