@@ -111,16 +111,43 @@ function currentstock (callback){
     dataType: "json",
     success: function( data ){
       var stockdata = (data["Meta Data"]["2. Symbol"]);
+      var stockdata1 = (data["Meta Data"]["3. Last Refreshed"]);
       var currentdate = new Date();
       var date =  currentdate.getFullYear() + "-"
                  + (currentdate.getMonth()+1)  + "-"
                  + ("0"+(currentdate.getDate())).slice(-2)
-      var stockdata2 = (data["Time Series (Daily)"][date]["4. close"]);
+      var stockdata2 = (data["Time Series (Daily)"][stockdata1]["4. close"]);
       if(typeof callback === "function") callback(stockdata2,stockdata);
     }
   });
 }
 
+ko.bindingHandlers.modal = {
+    init: function (element, valueAccessor) {
+        $(element).modal({
+            show: false
+        });
+
+        var value = valueAccessor();
+        if (ko.isObservable(value)) {
+            $(element).on('hide.bs.modal', function() {
+               value(false);
+            });
+        }
+        ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+           $(element).modal("destroy");
+        });
+
+    },
+    update: function (element, valueAccessor) {
+        var value = valueAccessor();
+        if (ko.utils.unwrapObservable(value)) {
+            $(element).modal('show');
+        } else {
+            $(element).modal('hide');
+        }
+    }
+}
 
 var stockInformation = function (data) {
   this.title = (data.title);
@@ -130,6 +157,8 @@ var stockInformation = function (data) {
 
 var ViewModel = function () {
   var self = this;
+
+  self.currentModalItem = ko.observable(null);
 
   this.stockList = ko.observableArray([]);
 
@@ -147,12 +176,12 @@ var ViewModel = function () {
     })
   };
 
-  this.changeStock = function (clickStock) {
-    populate(clickStock);
+  self.openModal = function (stockItem) {
+    self.currentModalItem(stockItem);
   };
-}
+};
 
-function populate(clickStock){
+/*function populate(clickStock){
 
   var $stockElem = $('#info');
   $stockElem.text("");
@@ -167,7 +196,7 @@ function populate(clickStock){
       var date =  currentdate.getFullYear() + "-"
                  + (currentdate.getMonth()+1)  + "-"
                  + ("0"+(currentdate.getDate())).slice(-2)
-      var stockdata2 = (data["Time Series (Daily)"][date]["4. close"]);
+      var stockdata2 = (data["Time Series (Daily)"][stockdata1]["4. close"]);
       $stockElem.append(stockdata,"<br><br>");
       $stockElem.append(date,"<br><br>");
       $stockElem.append(stockdata2);
@@ -178,7 +207,7 @@ function populate(clickStock){
 });
 
   return false;
-}
+}*/
 
 var vm = new ViewModel();
 ko.applyBindings(vm);
