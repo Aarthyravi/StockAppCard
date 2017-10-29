@@ -5,13 +5,6 @@ var initialStock = [
     quan: 4,
     stockPrice: 850,
     total: 0,
-  },var initialStock = [
-  {
-    title: 'Google',
-    symbol: 'GOOGL',
-    quan: 4,
-    stockPrice: 850,
-    total: 0,
   }
 ];
 
