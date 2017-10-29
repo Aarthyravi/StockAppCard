@@ -17,7 +17,7 @@ $total.append(t.toFixed(2))*/
 var alphavantageUrl;
 
 
-var yurl = "https://sheets.googleapis.com/v4/spreadsheets/1sIdMhMMOkxAI-s9xJ1nOLf6LtqaR2GArQlBSKyOcnXQ/values/Sheet1?key=AIzaSyAMygfS590YrNHD0sh838PLSoAb-jy4X90&alt=json";
+var yurl = "https://sheets.googleapis.com/v4/spreadsheets/xxxxxxxxxxxx/values/Sheet1?key=xxxxxx&alt=json";
 $.ajax({
   url: yurl,
   dataType: "json",
@@ -69,7 +69,7 @@ t1 = 0
 var $currenttotal = $('#currentinfo')
 stockdiff =0
 /*for (j=0;j<initialStock.length;j++) {
-  var alphavantageUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+ initialStock[j].symbol + '&apikey=MC0RBZLQPSIREYCD';
+  var alphavantageUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+ initialStock[j].symbol + '&apikey=xxxxxxx';
   currentstock(function(data,data1) {
     for (k=0;k<initialStock.length;k++) {
       if (initialStock[k].symbol == data1){
@@ -175,7 +175,7 @@ function populate(clickStock){
 
   var $stockElem = $('#info');
   $stockElem.text("");
-  var googleUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+ clickStock.symbol + '&apikey=MC0RBZLQPSIREYCD';
+  var googleUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+ clickStock.symbol + '&apikey=xxxxx';
   $.ajax({
     url: googleUrl,
     dataType: "json",
