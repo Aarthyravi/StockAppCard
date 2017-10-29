@@ -15,8 +15,9 @@
    <div class="modal-dialog">
      <div class="modal-content">
       <div class="modal-body">
-         <p><i data-bind="text: title"></i></p>
-     </div>
+         <p><i data-bind="text: symbol"></i></p>
+         <p id = "stockdiff"><p>
+      </div>
    </div>
 </div>
 </div>
@@ -29,16 +30,16 @@
               <p id = "gainp" style="text-align:left;">
                 Gain/Loss
               <span id = "gain" style="float:right;"></span>
-              </p>
+            </p><br>
               <p id = "currentinfop" style="text-align:left;">
                Current Value
               <span id = "currentinfo" style="float:right;"></span>
-              </p>
-              <p style="text-align:left;">
-                <div class="card">
-               <button id = "button" class = "button" data-bind="click: stock">Total Portfolio </button></div>
+            </p><br>
+              <div class="card">
+                <p style="text-align:left;">
+               <button id = "button" class = "button" data-bind="click: stock">Total Portfolio </button>
               <span id = "totalport" style="float:right;"></span>
-            </p><br><br>
+            </p></div><br><br>
              <nav  id="drawer" class="nav">
              <ul id = "ul" class="nav_list" data-bind="foreach: stockList">
                <h2 class = "price" style="float:right;" data-bind="text: total"></h2>
@@ -57,7 +58,7 @@
     <main id = "info">
     </main>
   </div>
- <script src="js/libs/knockout-3.4.2.js"></script>
- <script src="js/appcard.js"></script>
+  <script src="js/libs/knockout-3.4.2.js"></script>
+  <script src="js/appcard.js"></script>
 </body>
 </html>
