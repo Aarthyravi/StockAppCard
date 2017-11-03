@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Yogesh's Stock Details</title>
+    <title>Stock Details</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/stylecard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="js/libs/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
@@ -15,7 +16,7 @@
    <div class="modal-dialog">
      <div class="modal-content">
       <div class="modal-body">
-         <p><i data-bind="text: symbol"></i></p>
+         <p><i data-bind="text: Symbol"></i></p>
          <p id = "stockdiff"><p>
       </div>
    </div>
@@ -24,41 +25,56 @@
   <div class="container">
       <div id = "overflow" class="options-box">
       <header>
-         <h1 class="header_title">Yogesh's Stocks Details</h1>
+         <h1 class="header_title">Stocks Details</h1>
        </header>
        <aside>
+            <div id = "menu" class ="menu">
+                <button id = "button" class = "button" data-bind="click: portfolio" onclick="myFunction()">Portfolio Accounts
+                   <i class="fa fa-caret-down"></i>
+                </button>
+                <ul id = "ul1" class="portfolio_list" data-bind="foreach: portfolioList">
+                  <li id = "li1" data-bind="click: $parent.stock, text: PortfolioName" class = "portfolioname"></li>
+               </ul>
+              </div><br>
+             <div id="accountname"></div>
               <p id = "gainp" style="text-align:left;">
                 Gain/Loss
-              <span id = "gain" style="float:right;"></span>
-            </p><br>
+               <span id = "gain" style="float:right;"></span>
+              </p><br>
               <p id = "currentinfop" style="text-align:left;">
                Current Value
               <span id = "currentinfo" style="float:right;"></span>
-            </p><br>
-              <div class="card">
-                <p style="text-align:left;">
-               <button id = "button" class = "button" data-bind="click: stock">Total Portfolio </button>
-              <span id = "totalport" style="float:right;"></span>
-            </p></div><br><br>
-             <nav  id="drawer" class="nav">
+             </p><br>
+             <p id = "totalportp" style="text-align:left;">
+              Total Portfolio
+             <span id = "totalport" style="float:right;"></span>
+            </p>
+          <!--  <ul id = "ul1" class="portfolio_list" data-bind="foreach: portfolioList">
+              <li id = "li1" data-bind="click: $parent.stock, text: PortfolioName" class = "portfolioname"></li><br><br>
+           </ul>-->
+          <nav  id="drawer" class="nav">
              <ul id = "ul" class="nav_list" data-bind="foreach: stockList">
-               <h2 class = "price" style="float:right;" data-bind="text: total"></h2>
-
-               <div class = "card">
-                 <li data-bind="click: $root.openModal, text: title" class="nav_item"></li><br><br>
-                 <input name = "text" type = "text">
-               </div>
-
+                <div class = "card">
+                    <li id = "li" data-bind="click: $root.openModal, text: Name" class="nav_item"></li>
+                    <h2 id ="price" class = "price" style="float:right;" data-bind="text: Cost"></h2><br>
+                    <input name = "text" type = "text">
+                </div>
              </ul>
            </nav>
-           </aside>
-       </div>
 
-    </div>
+    </aside>
+   </div>
     <main id = "info">
     </main>
   </div>
+  <script>
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+    document.getElementById("ul1").classList.toggle("show");
+}
+</script>
   <script src="js/libs/knockout-3.4.2.js"></script>
-  <script src="js/appcard.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
