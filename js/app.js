@@ -16,7 +16,7 @@ var alphavantageUrl;
 
 // Getting The acccount information
 
-var yurl = "https://sheets.googleapis.com/v4/spreadsheets/xxxx/values/Accounts?key=xxxxxx&alt=json";
+var yurl = "https://sheets.googleapis.com/v4/spreadsheets/1sIdMhMMOkxAI-s9xJ1nOLf6LtqaR2GArQlBSKyOcnXQ/values/Accounts?key=AIzaSyAMygfS590YrNHD0sh838PLSoAb-jy4X90&alt=json";
 console.log(yurl)
 $.ajax({
   url: yurl,
@@ -34,7 +34,7 @@ $.ajax({
           "Name": data.values[j][1],
         });
        console.log('account list length in inner',accountList.length)
-       var yurl = 'https://sheets.googleapis.com/v4/spreadsheets/xxxx/values/' + accountList[j-1].PortfolioIndex+'?key=xxxxx&alt=json';
+       var yurl = 'https://sheets.googleapis.com/v4/spreadsheets/1sIdMhMMOkxAI-s9xJ1nOLf6LtqaR2GArQlBSKyOcnXQ/values/' + accountList[j-1].PortfolioIndex+'?key=AIzaSyAMygfS590YrNHD0sh838PLSoAb-jy4X90&alt=json';
        console.log(yurl)
        $.ajax({
          url: yurl,
@@ -71,7 +71,7 @@ function getAccountDetails(name_obj) {
    console.log('called getAccountDetails'+name_obj);
    console.log(portfolioDetails.length+'portfolioDetails.length')
 
-    var yurl = 'https://sheets.googleapis.com/v4/spreadsheets/xxxx/values/'+name_obj+'?key=xxxx&alt=json';
+    var yurl = 'https://sheets.googleapis.com/v4/spreadsheets/1sIdMhMMOkxAI-s9xJ1nOLf6LtqaR2GArQlBSKyOcnXQ/values/'+name_obj+'?key=AIzaSyAMygfS590YrNHD0sh838PLSoAb-jy4X90&alt=json';
     console.log(yurl)
     $.ajax({
       url: yurl,
@@ -97,11 +97,15 @@ function getAccountDetails(name_obj) {
               "SharesOwned": data.values[j][4],
               "Cost": data.values[j][5],
               "PricePerShare": data.values[j][6],
+              value: parseInt(data.values[j][4]),
+              label: data.values[j][2]
+
             });
-            console.log(data.values[j][2]);
+
+            console.log(data.values[j][4]);
 
 
-          alphavantageUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+ data.values[j][2] + '&apikey=xxxxx';
+          alphavantageUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+ data.values[j][2] + '&apikey=MC0RBZLQPSIREYCD';
           currentstock(function(Cdata,data1) {
             t1 += data.values[j][4] * Cdata;
             t += data.values[j][4] * data.values[j][6];
@@ -136,7 +140,7 @@ function currentstock (callback){
       var date =  currentdate.getFullYear() + "-"
                  + (currentdate.getMonth()+1)  + "-"
                  + ("0"+(currentdate.getDate())).slice(-2)
-      var stockdata2 = (data["Time Series (Daily)"][stockdata1]["4. close"]);
+      var stockdata2 = (data["Time Series (Daily)"][date]["4. close"]);
       if(typeof callback === "function") callback(stockdata2,stockdata);
     }
   });
@@ -187,6 +191,9 @@ var ViewModel = function () {
 
   this.stockList = ko.observableArray([]);
 
+  this.chartList = ko.observableArray([]);
+
+
   this.portfolioList = ko.observableArray([]);
 
   self.portfolio = function(){
@@ -209,7 +216,15 @@ var ViewModel = function () {
     $("#gainp").hide("fast");
     $("#gain").hide("fast");
     document.getElementById("accountname").innerHTML = click.Name + "'s Stock Lists"
-    var yurl = 'https://sheets.googleapis.com/v4/spreadsheets/xxxxx/values/'+click.Name+'?key=xxxx&alt=json';
+    initialStock.forEach(function (e, i) {
+    e.color = "hsl(" + (i / initialStock.length * 360) + ", 50%, 50%)";
+    e.highlight = "hsl(" + (i / initialStock.length * 360) + ", 50%, 70%)";
+    // + any other code you need to make your element into a chart.js pie element
+   })
+    var context = document.getElementById('skills').getContext('2d');
+    var skillsChart = new Chart(context).Pie(initialStock);
+    console.log(skillsChart)
+    var yurl = 'https://sheets.googleapis.com/v4/spreadsheets/1sIdMhMMOkxAI-s9xJ1nOLf6LtqaR2GArQlBSKyOcnXQ/values/'+click.Name+'?key=AIzaSyAMygfS590YrNHD0sh838PLSoAb-jy4X90&alt=json';
     $.ajax({
       url: yurl,
       dataType: "json",
@@ -217,6 +232,7 @@ var ViewModel = function () {
         initialStock.forEach(function(Item) {
           if(click.PortfolioName == Item.PortfolioName){
             self.stockList.push(new stockInformation(Item));
+
           }
         })
       }
@@ -225,7 +241,7 @@ var ViewModel = function () {
 
   self.openModal = function (stockItem) {
     self.currentModalItem(stockItem);
-    populate(stockItem)
+    //populate(stockItem)
     //document.getElementById("stockdiff").innerHTML = stockdiff
   };
 };
@@ -234,7 +250,7 @@ function populate(clickStock){
 
   var $stockElem = $('#info');
   $stockElem.text("");
-  var googleUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+ clickStock.Symbol + '&apikey=xxxx';
+  var googleUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+ clickStock.Symbol + '&apikey=MC0RBZLQPSIREYCD';
   $.ajax({
     url: googleUrl,
     dataType: "json",
@@ -245,10 +261,11 @@ function populate(clickStock){
       var date =  currentdate.getFullYear() + "-"
                  + (currentdate.getMonth()+1)  + "-"
                  + ("0"+(currentdate.getDate())).slice(-2)
-      var stockdata2 = (data["Time Series (Daily)"][stockdata1]["4. close"]);
+      var stockdata2 = (data["Time Series (Daily)"][date]["4. close"]);
       $stockElem.append(stockdata,"<br><br>");
       $stockElem.append(date,"<br><br>");
       $stockElem.append(stockdata2);
+
   },
   error: function () {
     alert("There was an error.Failed to get Stock Data Try again please!");
@@ -257,6 +274,9 @@ function populate(clickStock){
 
   return false;
 }
+
+var context = document.getElementById('skills').getContext('2d');
+var skillsChart = new Chart(context).Pie(initialStock);
 
 var vm = new ViewModel();
 ko.applyBindings(vm);
