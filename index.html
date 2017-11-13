@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/Chartpie.js"></script>
     <script src="js/libs/jquery.min.js"></script>
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 </head>
@@ -23,9 +25,9 @@
 </div>
 </div>
   <div class="container">
-      <div id = "overflow" class="options-box">
+      <div id = "options-box" class="options-box">
       <header>
-         <h1 class="header_title">Stocks Details</h1>
+         <h1 class="header_title">Stocks Details</h1><br>
        </header>
        <aside>
             <div id = "menu" class ="menu">
@@ -33,7 +35,7 @@
                    <i class="fa fa-caret-down"></i>
                 </button>
                 <ul id = "ul1" class="portfolio_list" data-bind="foreach: portfolioList">
-                  <li id = "li1" data-bind="click: $parent.stock, text: PortfolioName" class = "portfolioname"></li>
+                  <li id = "li1" data-bind="click: $parent.stock, text: PortfolioName" onclick="myFunction1()" class = "portfolioname"></li>
                </ul>
               </div><br>
              <div id="accountname"></div>
@@ -65,13 +67,19 @@
     </aside>
    </div>
     <main id = "info">
+      <div class = "chart-container">
+        <canvas id="skills" width="500" height="500"></canvas>
+      </div>  
     </main>
   </div>
   <script>
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
 function myFunction() {
-    document.getElementById("ul1").classList.toggle("show");
+  document.getElementById("ul1").classList.toggle("show");
+}
+function myFunction1() {
+  document.getElementById("options-box").style.backgroundColor = "yellow";
 }
 </script>
   <script src="js/libs/knockout-3.4.2.js"></script>
