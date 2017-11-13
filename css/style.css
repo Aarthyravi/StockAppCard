@@ -1,4 +1,5 @@
 * {box-sizing:border-box;}
+
 html,
 body,.container {
   font-family: Arial, sans-serif;
@@ -6,13 +7,13 @@ body,.container {
   width: 100%;
   margin: 0;
   padding: 0;
-
 }
 .container {
   height: 100%;
   position: relative;
 }
 p,.header_title{
+  text-align: center;
   font-size: 40px;
 }
 
@@ -23,7 +24,8 @@ div{
 
 #accountname{
   font-size: 35px;
-  color: #ffffff;
+  color: #ff6666;
+  font-weight: bold;
 }
 .price{
   color: #ffff00;
@@ -38,20 +40,23 @@ div{
   padding: 10px 10px 10px 10px;
 
 }
-#gainp,#currentinfop{
-  color:
+#gainp,#currentinfop, #totalportp{
+  color: #f4b342;
+  font-weight: bold;
 }
 
 .portfolio_list  {
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
+  background-color: #33cccc ;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
 .portfolio_list li {
     float: none;
     color: black;
+    font-size: 17px;
+    font-weight: bold;
     padding: 2px 6px;
     text-decoration: none;
     display: block;
@@ -62,8 +67,8 @@ div{
     background-color: #ddd;
 }
 
-.options-box {
-  background: #707070;
+#options-box {
+  background: url('https://img1.etsystatic.com/068/0/8340085/il_fullxfull.785326063_97ux.jpg') repeat-x 0 0 scroll;
   border: 1px solid #999;
   border-radius: 3px;
   height: 100%;
@@ -92,8 +97,20 @@ div{
 }
 
 button{
+  background-color: #33cccc;
+  color: black;
+  font-weight: bolder;
+  font-size: 17px;
   width: 40%;
 }
+
+.chart-container {
+  position: relative;
+  width: 500;
+  height: 500;
+  margin: auto;
+}
+
 
 #li{
   color: #ffff00;
@@ -105,7 +122,6 @@ button{
   list-style: none;
   width: 40%;
   padding: 0;
-  margin: 0;
 }
 
 #ul {
@@ -115,11 +131,11 @@ button{
   margin: 0;
 }
 
-#overflow {
+#options-box {
   overflow: scroll;
 }
 #info {
-  background: #808080;
+  background: url('https://www.xmple.com/wallpaper/gradient-azure-lime-linear-2732x2048-c2-adde70-0b4995-a-345-f-14.svg') repeat-x 0 0 scroll;
   top: 0px;
   bottom:0px;
   height: 100%;
@@ -128,6 +144,7 @@ button{
   right: 0px;
   font-size: 90px;
   text-align: center;
+  color: #bfff80;
 }
 
 .portfolioname{
