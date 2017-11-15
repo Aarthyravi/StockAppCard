@@ -1,29 +1,15 @@
-var initialStock = [
-/*  {
-    "PortfolioName": 'Yogesh',
-    "Name": 'Google',
-    "Symbol": 'GOOGL',
-    "Segment": 'Technology',
-    "SharesOwned": 2.89,
-    "Cost": 124,
-    "PricePerShare": 43,
-  }*/
-];
+var initialStock = [];
 var accountList = [];
 var portfolioDetails = [];
 
 var alphavantageUrl;
 
 // Getting The acccount information
-
-var yurl = "https://sheets.googleapis.com/v4/spreadsheets/XXXX/values/Accounts?key=XXXX&alt=json";
-console.log(yurl)
+var yurl = "https://sheets.googleapis.com/v4/spreadsheets/xxx/values/Accounts?key=xxx&alt=json";
 $.ajax({
   url: yurl,
   dataType: "json",
   success: function( data ){
-    console.log(data.values.length)
-    //console.log(data.values[1][0])
     for (let j=1;j<data.values.length;j++) {
       // Get the data from the google spread row and update  the  initialStock list
       // data.values[j][0] -> PortfolioIndex
@@ -33,9 +19,8 @@ $.ajax({
           "PortfolioIndex": data.values[j][0],
           "Name": data.values[j][1],
         });
-       console.log('account list length in inner',accountList.length)
-       var yurl = 'https://sheets.googleapis.com/v4/spreadsheets/XXXX/values/' + accountList[j-1].PortfolioIndex+'?key=XXXX&alt=json';
-       console.log(yurl)
+
+       var yurl = 'https://sheets.googleapis.com/v4/spreadsheets/xxx/values/' + accountList[j-1].PortfolioIndex+'?key=xxx&alt=json';
        $.ajax({
          url: yurl,
          dataType: "json",
@@ -51,14 +36,10 @@ $.ajax({
                });
 
                getAccountDetails(data.values[k][1]);
-
             }
-
           }
-        });
-
+       });
      }
-
    }
  });
 
@@ -68,17 +49,11 @@ t1 = 0
 t = 0
 
 function getAccountDetails(name_obj) {
-   console.log('called getAccountDetails'+name_obj);
-   console.log(portfolioDetails.length+'portfolioDetails.length')
-
-    var yurl = 'https://sheets.googleapis.com/v4/spreadsheets/XXXX/values/'+name_obj+'?key=XXXX&alt=json';
-    console.log(yurl)
+    var yurl = 'https://sheets.googleapis.com/v4/spreadsheets/xxx/values/'+name_obj+'?key=xxx&alt=json';
     $.ajax({
       url: yurl,
       dataType: "json",
       success: function( data ){
-        console.log(data.values.length)
-        //console.log(data.values[1][0])
         for (let j=1;j<data.values.length;j++) {
           // Get the data from the google spread row and update  the  initialStock list
           // data.values[j][0] -> Portfolio name
@@ -102,10 +77,7 @@ function getAccountDetails(name_obj) {
 
             });
 
-            console.log(data.values[j][4]);
-
-
-          alphavantageUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+ data.values[j][2] + '&apikey=XXXX';
+          alphavantageUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+ data.values[j][2] + '&apikey=xxx';
           currentstock(function(Cdata,data1) {
             t1 += data.values[j][4] * Cdata;
             t += data.values[j][4] * data.values[j][6];
@@ -123,12 +95,13 @@ function getAccountDetails(name_obj) {
              document.getElementById("gain").style.backgroundColor = "#00cc00"
              document.getElementById("gain").style.color = "#ffffff"
            }
-          });
-        }
-      }
-});
+         });
+       }
+     }
+   });
 }
-console.log(stockdiff)
+
+
 function currentstock (callback){
   $.ajax({
     url: alphavantageUrl,
@@ -146,6 +119,8 @@ function currentstock (callback){
   });
 }
 
+
+// Modal Handler
 ko.bindingHandlers.modal = {
     init: function (element, valueAccessor) {
         $(element).modal({
@@ -173,17 +148,57 @@ ko.bindingHandlers.modal = {
     }
 }
 
+
+// Chart Type Handler
+ko.bindingHandlers.chartType = {
+  init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+        if (!allBindings.has('chartData')) {
+            throw Error('chartType must be used in conjunction with chartData and (optionally) chartOptions');
+        }
+    },
+
+    update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+
+          var ctx = element.getContext('2d'),
+            type = ko.unwrap(valueAccessor()),
+            data = ko.unwrap(allBindings.get('chartData')),
+            chart = new Chart(ctx);
+
+        chart[type](data);
+    }
+};
+
+
+// Chart data Handler
+ko.bindingHandlers.chartData = {};
+
+
+
 var stockInformation = function (data) {
   this.Name = (data.Name);
   this.Symbol = (data.Symbol);
   this.Cost = (data.Cost);
+  var num = (data.Cost);
+  this.Cost1 = num.split(",").join('');
+  this.type =  ko.observable('Bar');
+  this.stockdata =  ko.observable({
+    labels: [this.Name,"etc"],
+    datasets: [{
+      label: "Red",
+      backgroundColor: "red",
+      data: [this.Cost1,0]
+     }]
+   })
 };
+
 
 var portfolioInfo = function (data){
   this.PortfolioName = (data.PortfolioName);
   this.Name = (data.Name);
 }
 
+
+// ViewModel
 var ViewModel = function () {
   var self = this;
 
@@ -216,15 +231,17 @@ var ViewModel = function () {
     $("#gainp").hide("fast");
     $("#gain").hide("fast");
     document.getElementById("accountname").innerHTML = click.Name + "'s Stock Lists"
-    initialStock.forEach(function (e, i) {
+
+    /*initialStock.forEach(function (e, i) {
     e.color = "hsl(" + (i / initialStock.length * 360) + ", 50%, 50%)";
     e.highlight = "hsl(" + (i / initialStock.length * 360) + ", 50%, 70%)";
     // + any other code you need to make your element into a chart.js pie element
    })
     var context = document.getElementById('skills').getContext('2d');
-    var skillsChart = new Chart(context).Pie(initialStock);
-    console.log(skillsChart)
-    var yurl = 'https://sheets.googleapis.com/v4/spreadsheets/XXXX/values/'+click.Name+'?key=XXXX&alt=json';
+    var skillsChart = new Chart(context).Pie(initialStock);*/
+
+
+    var yurl = 'https://sheets.googleapis.com/v4/spreadsheets/xxx/values/'+click.Name+'?key=xxx&alt=json';
     $.ajax({
       url: yurl,
       dataType: "json",
@@ -241,6 +258,7 @@ var ViewModel = function () {
 
   self.openModal = function (stockItem) {
     self.currentModalItem(stockItem);
+
     //populate(stockItem)
     //document.getElementById("stockdiff").innerHTML = stockdiff
   };
@@ -250,7 +268,7 @@ function populate(clickStock){
 
   var $stockElem = $('#info');
   $stockElem.text("");
-  var googleUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+ clickStock.Symbol + '&apikey=XXXX';
+  var googleUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+ clickStock.Symbol + '&apikey=xxx';
   $.ajax({
     url: googleUrl,
     dataType: "json",
@@ -275,9 +293,5 @@ function populate(clickStock){
   return false;
 }
 
-var context = document.getElementById('skills').getContext('2d');
-var skillsChart = new Chart(context).Pie(initialStock);
-
 var vm = new ViewModel();
 ko.applyBindings(vm);
-
