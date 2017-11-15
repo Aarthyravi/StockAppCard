@@ -7,18 +7,19 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/Chartpie.js"></script>
     <script src="js/libs/jquery.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 </head>
 <body>
   <div class="modal fade" data-bind="modal: !!currentModalItem(), with: currentModalItem">
+
    <div class="modal-dialog">
      <div class="modal-content">
       <div class="modal-body">
-         <p><i data-bind="text: Symbol"></i></p>
+        <canvas data-bind="chartType: type, chartData: stockdata" width="500" height="500"></canvas>
+         <p><i data-bind="text: Cost"></i></p>
          <p id = "stockdiff"><p>
       </div>
    </div>
@@ -69,7 +70,7 @@
     <main id = "info">
       <div class = "chart-container">
         <canvas id="skills" width="500" height="500"></canvas>
-      </div>  
+      </div>
     </main>
   </div>
   <script>
